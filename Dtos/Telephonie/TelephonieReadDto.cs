@@ -14,8 +14,6 @@ namespace GPI.Models
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
 
-        public AffTelephonieReadDto AffTelephonie { get; set; }
-        public int IdAffTelephonie { get; set; }
         
     }
 }

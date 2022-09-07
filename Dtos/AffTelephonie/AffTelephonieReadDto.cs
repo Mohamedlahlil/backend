@@ -16,5 +16,8 @@ namespace GPI.Models
 
         public CentreReadDto Centre { get; set; }
         public int IdCentre { get; set; }
+
+        public TelephonieReadDto Telephonie { get; set; }
+        public int IdTelephonie { get; set; }
     }
 }

@@ -81,11 +81,21 @@ namespace GPI.Data
                 .HasOne(p => p.Centre)
                 .WithMany(b => b.AffTelephonies)
                 .HasForeignKey(p => p.IdCentre);
+            
+            modelBuilder.Entity<AffTelephonie>()
+                .HasOne(p => p.Telephonie)
+                .WithMany(b => b.AffTelephonies)
+                .HasForeignKey(p => p.IdTelephonie);
 
             modelBuilder.Entity<AffLogiciel>()
                 .HasOne(p => p.User)
                 .WithMany(b => b.AffLogiciels)
                 .HasForeignKey(p => p.IdUser);
+
+            modelBuilder.Entity<AffLogiciel>()
+                .HasOne(p => p.Logiciel)
+                .WithMany(b => b.AffLogiciels)
+                .HasForeignKey(p => p.IdLogiciel);
 
             modelBuilder.Entity<Article>()
                 .HasOne(p => p.Type)
@@ -102,15 +112,15 @@ namespace GPI.Data
                 .WithMany(b => b.Articles)
                 .HasForeignKey(p => p.IdFournisseur);
 
-            modelBuilder.Entity<Telephonie>()
-                .HasOne(p => p.AffTelephonie)
-                .WithMany(b => b.Telephonies)
-                .HasForeignKey(p => p.IdAffTelephonie);
+           // modelBuilder.Entity<Telephonie>()
+           //     .HasOne(p => p.AffTelephonie)
+            //    .WithMany(b => b.Telephonies)
+             //   .HasForeignKey(p => p.IdAffTelephonie);
 
-            modelBuilder.Entity<Logiciel>()
-                .HasOne(p => p.AffLogiciel)
-                .WithMany(b => b.Logiciels)
-                .HasForeignKey(p => p.IdAffLogiciel);
+            //modelBuilder.Entity<Logiciel>()
+             //   .HasOne(p => p.AffLogiciel)
+             //   .WithMany(b => b.Logiciels)
+              //  .HasForeignKey(p => p.IdAffLogiciel);
 
             modelBuilder.Entity<Ticket>()
                 .HasOne(p => p.Article)

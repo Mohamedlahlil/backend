@@ -43,12 +43,16 @@ namespace GPI.Data
         {
             return __context.AffLogiciels
                         .Include(c => c.User)
+                        .Include(c => c.Logiciel)
                         .ToList();
         }
 
         public AffLogiciel GetAffLogicielById(int id)
         {
-            return __context.AffLogiciels.FirstOrDefault(p => p.IdAffLogiciel == id);
+            return __context.AffLogiciels
+                        .Include(c => c.User)
+                        .Include(c => c.Logiciel)
+                        .FirstOrDefault(p => p.IdAffLogiciel == id);
         }
 
         public bool SaveChanges()

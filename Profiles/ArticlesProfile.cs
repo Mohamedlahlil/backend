@@ -10,7 +10,7 @@ namespace GPI.Profiles
         {
             //Source-->Target
             CreateMap<Article, ArticleReadDto>();
-            CreateMap<ArticleCreateDto, Article>();
+            CreateMap<ArtcleCreateDto, Article>();
             CreateMap<ArticleUpdateDto, Article>();
             CreateMap<Article, ArticleUpdateDto>();
         }

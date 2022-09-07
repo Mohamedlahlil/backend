@@ -8,31 +8,31 @@ namespace GPI.Models
     {
         [Key]
         public int IdTicket { get; set; }
-        [Required]
+        
         public string Type { get; set; }
-        [Required]
+        
         public string Statut { get; set; }
-        [Required]
+        
         public string Priorite { get; set; }
-        [Required]
+        
         public string Titre { get; set; }
-        [Required]
+        
         public string Description { get; set; }
-        [Required]
+        
         public DateTime Dateouverture { get; set; }
-        [Required]
+        
         public DateTime DateFin { get; set; }
-        [Required]
+        
         public DateTime DateDemande { get; set; }
-        [Required]
+        
         public string Solution { get; set; }
-        [Required]
+        
         public string Lieu { get; set; }
-        [Required]
+        
         public string Creepar { get; set; }
-        [Required]
+        
         public DateTime created_at { get; set; }
-        [Required]
+        
         public DateTime updated_at { get; set; }
         public User User { get; set; }
         public int IdUser { get; set; }

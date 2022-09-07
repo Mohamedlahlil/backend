@@ -50,7 +50,11 @@ namespace GPI.Data
 
         public Article GetArticleById(int id)
         {
-            return __context.Articles.FirstOrDefault(p => p.IdArticle == id);
+            return __context.Articles
+                        .Include(c => c.AffArticle)
+                        .Include(c => c.Fournisseur)
+                        .Include(c => c.Type)
+                        .FirstOrDefault(p => p.IdArticle == id);
         }
 
         public bool SaveChanges()

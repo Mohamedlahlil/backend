@@ -12,20 +12,19 @@ namespace GPI.Models
 
         [Required]
         public string Designation { get; set; }
-        [Required]
+        
         public string Source { get; set; }
-        [Required]
+        
         public string Licence { get; set; }
-        [Required]
+        
         public DateTime created_at { get; set; }
-        [Required]
+        
         public DateTime updated_at { get; set; }
-
-        public AffLogiciel AffLogiciel { get; set; }
-        public int IdAffLogiciel { get; set; }
 
         public IEnumerable<Ticket> Tickets { get; set; }
         public IEnumerable<AffHistorique> AffHistoriques { get; set; }
+        
+        public IEnumerable<AffLogiciel> AffLogiciels { get; set; }
         
     }
 }

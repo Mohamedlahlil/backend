@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPI.Migrations
 {
     [DbContext(typeof(GPIContext))]
-    [Migration("20220405143632_ticketsMigration")]
-    partial class ticketsMigration
+    [Migration("20220831084844_tickeMigrationss")]
+    partial class tickeMigrationss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -108,6 +108,9 @@ namespace GPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("IdLogiciel")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
 
@@ -124,6 +127,8 @@ namespace GPI.Migrations
 
                     b.HasKey("IdAffLogiciel");
 
+                    b.HasIndex("IdLogiciel");
+
                     b.HasIndex("IdUser");
 
                     b.ToTable("AffLogiciels");
@@ -137,6 +142,9 @@ namespace GPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("IdCentre")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTelephonie")
                         .HasColumnType("int");
 
                     b.Property<string>("Observation")
@@ -153,6 +161,8 @@ namespace GPI.Migrations
                     b.HasKey("IdAffTelephonie");
 
                     b.HasIndex("IdCentre");
+
+                    b.HasIndex("IdTelephonie");
 
                     b.ToTable("AffTelephonies");
                 });
@@ -299,9 +309,6 @@ namespace GPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdAffLogiciel")
-                        .HasColumnType("int");
-
                     b.Property<string>("Licence")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -317,8 +324,6 @@ namespace GPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("IdLogiciel");
-
-                    b.HasIndex("IdAffLogiciel");
 
                     b.ToTable("Logiciels");
                 });
@@ -409,18 +414,10 @@ namespace GPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Admin")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Designation")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
-
-                    b.Property<string>("Utilisateur")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdRole");
 
@@ -515,9 +512,6 @@ namespace GPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdAffTelephonie")
-                        .HasColumnType("int");
-
                     b.Property<string>("Lignesupport")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -533,8 +527,6 @@ namespace GPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("IdTelephonie");
-
-                    b.HasIndex("IdAffTelephonie");
 
                     b.ToTable("Telephonies");
                 });
@@ -773,6 +765,12 @@ namespace GPI.Migrations
 
             modelBuilder.Entity("GPI.Models.AffLogiciel", b =>
                 {
+                    b.HasOne("GPI.Models.Logiciel", "Logiciel")
+                        .WithMany("AffLogiciels")
+                        .HasForeignKey("IdLogiciel")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GPI.Models.User", "User")
                         .WithMany("AffLogiciels")
                         .HasForeignKey("IdUser")
@@ -785,6 +783,12 @@ namespace GPI.Migrations
                     b.HasOne("GPI.Models.Centre", "Centre")
                         .WithMany("AffTelephonies")
                         .HasForeignKey("IdCentre")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GPI.Models.Telephonie", "Telephonie")
+                        .WithMany("AffTelephonies")
+                        .HasForeignKey("IdTelephonie")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -815,15 +819,6 @@ namespace GPI.Migrations
                     b.HasOne("GPI.Models.Ville", "Ville")
                         .WithMany("Centres")
                         .HasForeignKey("IdVille")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GPI.Models.Logiciel", b =>
-                {
-                    b.HasOne("GPI.Models.AffLogiciel", "AffLogiciel")
-                        .WithMany("Logiciels")
-                        .HasForeignKey("IdAffLogiciel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -887,15 +882,6 @@ namespace GPI.Migrations
                     b.HasOne("GPI.Models.TypeCategorie", "TypeCategorie")
                         .WithMany("SousCategories")
                         .HasForeignKey("IdTypeCategorie")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GPI.Models.Telephonie", b =>
-                {
-                    b.HasOne("GPI.Models.AffTelephonie", "AffTelephonie")
-                        .WithMany("Telephonies")
-                        .HasForeignKey("IdAffTelephonie")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -11,12 +11,12 @@ namespace GPI.Models
         [Key]
         public int IdAffArticle { get; set; }
 
-        [Required]
+        
         [MaxLength(250)]
         public string Typeaffectation { get; set; }
-        [Required]
+        
         public DateTime dateaffectation { get; set; }
-        [Required]
+        
         public string Observation { get; set; }
 
         public Service Service { get; set; }

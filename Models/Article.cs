@@ -9,25 +9,25 @@ namespace GPI.Models
     {
         [Key]
         public int IdArticle { get; set; }
-        [Required]
+        
         public string CodeInterne { get; set; }
-        [Required]
+        
         public string Reference { get; set; }
-        [Required]
+        
         public string Numserie { get; set; }
-        [Required]
+        
         public string CodeLicence { get; set; }
-        [Required]
+        
         public bool Licence { get; set; }
-        [Required]
+        
         public float Prix { get; set; }
-        [Required]
+        
         public DateTime DateAchat { get; set; }
-        [Required]
+        
         public bool Reforme { get; set; }
-        [Required]
+        
         public string NumCommande { get; set; }
-        [Required]
+        
         public string NumFacture { get; set; }
         public Type Type { get; set; }
         public int IdType { get; set; }

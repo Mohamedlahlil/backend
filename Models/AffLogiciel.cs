@@ -14,14 +14,16 @@ namespace GPI.Models
         [Required]
         [MaxLength(250)]
         public string Observation { get; set; }
-        [Required]
+        
         public DateTime created_at { get; set; }
-        [Required]
+        
         public DateTime updated_at { get; set; }
 
         public User User { get; set; }
         public int IdUser { get; set; }
+        public Logiciel Logiciel { get; set; }
+        public int IdLogiciel { get; set; }
         
-        public List<Logiciel> Logiciels { get; set; }
+        //public List<Logiciel> Logiciels { get; set; }
     }
 }

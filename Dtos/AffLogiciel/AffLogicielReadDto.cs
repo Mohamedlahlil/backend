@@ -15,5 +15,7 @@ namespace GPI.Models
 
         public UserReadDto User { get; set; }
         public int IdUser { get; set; }
+        public LogicielReadDto Logiciel { get; set; }
+        public int IdLogiciel { get; set; }
     }
 }

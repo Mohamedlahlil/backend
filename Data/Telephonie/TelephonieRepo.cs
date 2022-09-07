@@ -42,13 +42,14 @@ namespace GPI.Data
         public IEnumerable<Telephonie> GetAllTelephonies()
         {
             return __context.Telephonies
-                        .Include(c => c.AffTelephonie)
                         .ToList();
         }
 
         public Telephonie GetTelephonieById(int id)
         {
-            return __context.Telephonies.FirstOrDefault(p => p.IdTelephonie == id);
+            return __context.Telephonies
+            
+            .FirstOrDefault(p => p.IdTelephonie == id);
         }
 
         public bool SaveChanges()

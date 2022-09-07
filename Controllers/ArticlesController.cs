@@ -49,7 +49,7 @@ namespace GPI.Controllers
 
         //POST api/Articles
         [HttpPost]
-        public ActionResult<ArticleReadDto> CreateArticle(ArticleCreateDto articleCreateDto)
+        public ActionResult<ArticleReadDto> CreateArticle(ArtcleCreateDto articleCreateDto)
         {
             var articleModel = _mapper.Map<Article>(articleCreateDto);
             _repository.CreateArticle(articleModel);

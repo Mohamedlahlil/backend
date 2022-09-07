@@ -42,7 +42,6 @@ namespace GPI.Data
         public IEnumerable<Logiciel> GetAllLogiciels()
         {
             return __context.Logiciels
-                        .Include(c => c.AffLogiciel)
                         .ToList();
         }
 

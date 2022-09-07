@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GPI.Migrations
 {
-    public partial class ticketsMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,18 +35,50 @@ namespace GPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logiciels",
+                columns: table => new
+                {
+                    IdLogiciel = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Designation = table.Column<string>(nullable: false),
+                    Source = table.Column<string>(nullable: false),
+                    Licence = table.Column<string>(nullable: false),
+                    created_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logiciels", x => x.IdLogiciel);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     IdRole = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Designation = table.Column<string>(maxLength: 250, nullable: false),
-                    Admin = table.Column<string>(nullable: false),
-                    Utilisateur = table.Column<string>(nullable: false)
+                    Designation = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.IdRole);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Telephonies",
+                columns: table => new
+                {
+                    IdTelephonie = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Lignesupport = table.Column<string>(nullable: false),
+                    Typeliaison = table.Column<string>(nullable: false),
+                    Autreinformations = table.Column<string>(nullable: false),
+                    created_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Telephonies", x => x.IdTelephonie);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,7 +180,8 @@ namespace GPI.Migrations
                     Observation = table.Column<string>(maxLength: 250, nullable: false),
                     created_at = table.Column<DateTime>(nullable: false),
                     updated_at = table.Column<DateTime>(nullable: false),
-                    IdCentre = table.Column<int>(nullable: false)
+                    IdCentre = table.Column<int>(nullable: false),
+                    IdTelephonie = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,6 +191,12 @@ namespace GPI.Migrations
                         column: x => x.IdCentre,
                         principalTable: "Centres",
                         principalColumn: "IdCentre",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AffTelephonies_Telephonies_IdTelephonie",
+                        column: x => x.IdTelephonie,
+                        principalTable: "Telephonies",
+                        principalColumn: "IdTelephonie",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -178,30 +217,6 @@ namespace GPI.Migrations
                         column: x => x.IdCentre,
                         principalTable: "Centres",
                         principalColumn: "IdCentre",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Telephonies",
-                columns: table => new
-                {
-                    IdTelephonie = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Lignesupport = table.Column<string>(nullable: false),
-                    Typeliaison = table.Column<string>(nullable: false),
-                    Autreinformations = table.Column<string>(nullable: false),
-                    created_at = table.Column<DateTime>(nullable: false),
-                    updated_at = table.Column<DateTime>(nullable: false),
-                    IdAffTelephonie = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Telephonies", x => x.IdTelephonie);
-                    table.ForeignKey(
-                        name: "FK_Telephonies_AffTelephonies_IdAffTelephonie",
-                        column: x => x.IdAffTelephonie,
-                        principalTable: "AffTelephonies",
-                        principalColumn: "IdAffTelephonie",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -270,11 +285,18 @@ namespace GPI.Migrations
                     Observation = table.Column<string>(maxLength: 250, nullable: false),
                     created_at = table.Column<DateTime>(nullable: false),
                     updated_at = table.Column<DateTime>(nullable: false),
-                    IdUser = table.Column<int>(nullable: false)
+                    IdUser = table.Column<int>(nullable: false),
+                    IdLogiciel = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AffLogiciels", x => x.IdAffLogiciel);
+                    table.ForeignKey(
+                        name: "FK_AffLogiciels_Logiciels_IdLogiciel",
+                        column: x => x.IdLogiciel,
+                        principalTable: "Logiciels",
+                        principalColumn: "IdLogiciel",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AffLogiciels_Users_IdUser",
                         column: x => x.IdUser,
@@ -353,61 +375,6 @@ namespace GPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Logiciels",
-                columns: table => new
-                {
-                    IdLogiciel = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Designation = table.Column<string>(nullable: false),
-                    Source = table.Column<string>(nullable: false),
-                    Licence = table.Column<string>(nullable: false),
-                    created_at = table.Column<DateTime>(nullable: false),
-                    updated_at = table.Column<DateTime>(nullable: false),
-                    IdAffLogiciel = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Logiciels", x => x.IdLogiciel);
-                    table.ForeignKey(
-                        name: "FK_Logiciels_AffLogiciels_IdAffLogiciel",
-                        column: x => x.IdAffLogiciel,
-                        principalTable: "AffLogiciels",
-                        principalColumn: "IdAffLogiciel",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reparations",
-                columns: table => new
-                {
-                    IdReparation = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Pieceenvoie = table.Column<string>(nullable: false),
-                    DescriptionReparation = table.Column<string>(nullable: false),
-                    EtatReparation = table.Column<bool>(nullable: false),
-                    MontantReparation = table.Column<float>(nullable: false),
-                    DateReception = table.Column<DateTime>(nullable: false),
-                    Dateenvoie = table.Column<DateTime>(nullable: false),
-                    SaisieLe = table.Column<DateTime>(nullable: false),
-                    IdArticle = table.Column<int>(nullable: false),
-                    IdFournisseur = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reparations", x => x.IdReparation);
-                    table.ForeignKey(
-                        name: "FK_Reparations_Articles_IdArticle",
-                        column: x => x.IdArticle,
-                        principalTable: "Articles",
-                        principalColumn: "IdArticle");
-                    table.ForeignKey(
-                        name: "FK_Reparations_Fournisseurs_IdFournisseur",
-                        column: x => x.IdFournisseur,
-                        principalTable: "Fournisseurs",
-                        principalColumn: "IdFournisseur");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AffHistoriques",
                 columns: table => new
                 {
@@ -445,6 +412,37 @@ namespace GPI.Migrations
                         column: x => x.IdUser,
                         principalTable: "Users",
                         principalColumn: "IdUser");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reparations",
+                columns: table => new
+                {
+                    IdReparation = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Pieceenvoie = table.Column<string>(nullable: false),
+                    DescriptionReparation = table.Column<string>(nullable: false),
+                    EtatReparation = table.Column<bool>(nullable: false),
+                    MontantReparation = table.Column<float>(nullable: false),
+                    DateReception = table.Column<DateTime>(nullable: false),
+                    Dateenvoie = table.Column<DateTime>(nullable: false),
+                    SaisieLe = table.Column<DateTime>(nullable: false),
+                    IdArticle = table.Column<int>(nullable: false),
+                    IdFournisseur = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reparations", x => x.IdReparation);
+                    table.ForeignKey(
+                        name: "FK_Reparations_Articles_IdArticle",
+                        column: x => x.IdArticle,
+                        principalTable: "Articles",
+                        principalColumn: "IdArticle");
+                    table.ForeignKey(
+                        name: "FK_Reparations_Fournisseurs_IdFournisseur",
+                        column: x => x.IdFournisseur,
+                        principalTable: "Fournisseurs",
+                        principalColumn: "IdFournisseur");
                 });
 
             migrationBuilder.CreateTable(
@@ -563,6 +561,11 @@ namespace GPI.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AffLogiciels_IdLogiciel",
+                table: "AffLogiciels",
+                column: "IdLogiciel");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AffLogiciels_IdUser",
                 table: "AffLogiciels",
                 column: "IdUser");
@@ -571,6 +574,11 @@ namespace GPI.Migrations
                 name: "IX_AffTelephonies_IdCentre",
                 table: "AffTelephonies",
                 column: "IdCentre");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AffTelephonies_IdTelephonie",
+                table: "AffTelephonies",
+                column: "IdTelephonie");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_IdAffArticle",
@@ -591,11 +599,6 @@ namespace GPI.Migrations
                 name: "IX_Centres_IdVille",
                 table: "Centres",
                 column: "IdVille");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Logiciels_IdAffLogiciel",
-                table: "Logiciels",
-                column: "IdAffLogiciel");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pausess_IdTicket",
@@ -636,11 +639,6 @@ namespace GPI.Migrations
                 name: "IX_SousCategories_IdTypeCategorie",
                 table: "SousCategories",
                 column: "IdTypeCategorie");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Telephonies_IdAffTelephonie",
-                table: "Telephonies",
-                column: "IdAffTelephonie");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_AffArticleIdAffArticle",
@@ -684,6 +682,12 @@ namespace GPI.Migrations
                 name: "AffHistoriques");
 
             migrationBuilder.DropTable(
+                name: "AffLogiciels");
+
+            migrationBuilder.DropTable(
+                name: "AffTelephonies");
+
+            migrationBuilder.DropTable(
                 name: "Pausess");
 
             migrationBuilder.DropTable(
@@ -720,16 +724,10 @@ namespace GPI.Migrations
                 name: "Types");
 
             migrationBuilder.DropTable(
-                name: "AffLogiciels");
-
-            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "TypeCategories");
-
-            migrationBuilder.DropTable(
-                name: "AffTelephonies");
 
             migrationBuilder.DropTable(
                 name: "Users");

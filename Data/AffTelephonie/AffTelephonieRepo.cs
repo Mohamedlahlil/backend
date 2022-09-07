@@ -43,12 +43,16 @@ namespace GPI.Data
         {
             return __context.AffTelephonies
                         .Include(c => c.Centre)
+                        .Include(c => c.Telephonie)
                         .ToList();
         }
 
         public AffTelephonie GetAffTelephonieById(int id)
         {
-            return __context.AffTelephonies.FirstOrDefault(p => p.IdAffTelephonie == id);
+            return __context.AffTelephonies
+                        .Include(c => c.Centre)
+                        .Include(c => c.Telephonie)
+                        .FirstOrDefault(p => p.IdAffTelephonie == id);
         }
 
         public bool SaveChanges()
